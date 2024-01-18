@@ -63,7 +63,7 @@ RouteBase get $shellRouteData => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/rekapkas',
-              factory: $RekapKasPageRouteExtension._fromState,
+              factory: $RekapBulananPageRouteExtension._fromState,
             ),
           ],
         ),
@@ -200,9 +200,9 @@ extension $DspSppPageRouteExtension on DspSppPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $RekapKasPageRouteExtension on RekapKasPageRoute {
-  static RekapKasPageRoute _fromState(GoRouterState state) =>
-      const RekapKasPageRoute();
+extension $RekapBulananPageRouteExtension on RekapBulananPageRoute {
+  static RekapBulananPageRoute _fromState(GoRouterState state) =>
+      const RekapBulananPageRoute();
 
   String get location => GoRouteData.$location(
         '/rekapkas',

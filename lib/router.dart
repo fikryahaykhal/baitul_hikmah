@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sik_baitulhikmah/features/dsp_spp/dsp_spp_page.dart';
 import 'package:sik_baitulhikmah/features/pemasukan/pemasukan_page.dart';
 import 'package:sik_baitulhikmah/features/pengeluaran/pengeluaran_page.dart';
-import 'package:sik_baitulhikmah/features/rekap_kas/pemasukan_page.dart';
+import 'package:sik_baitulhikmah/features/rekap_kas/rekap_bulanan_page.dart';
 import 'package:sik_baitulhikmah/features/users/user_not_found_page.dart';
 import 'package:sik_baitulhikmah/widgets/navigation/login_page.dart';
 
@@ -69,7 +69,7 @@ final router = GoRouter(
     ),
     TypedStatefulShellBranch(
       routes: [
-        TypedGoRoute<RekapKasPageRoute>(
+        TypedGoRoute<RekapBulananPageRoute>(
           path: '/rekapkas',
         ),
       ],
@@ -166,12 +166,12 @@ class PengeluaranPageRoute extends GoRouteData {
   }
 }
 
-class RekapKasPageRoute extends GoRouteData {
-  const RekapKasPageRoute();
+class RekapBulananPageRoute extends GoRouteData {
+  const RekapBulananPageRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const RekapKasPage();
+    return const RekapBulananPage();
   }
 }
 

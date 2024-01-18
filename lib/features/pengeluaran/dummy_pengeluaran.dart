@@ -62,6 +62,6 @@ const _json = [
     'nominal': 'dummy',
     'sumber': 'dummy',
     'keterangan': 'dummy',
-    'tanggal': '2023-08-15',
+    'tanggal': 'dummy',
   },
 ];

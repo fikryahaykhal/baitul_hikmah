@@ -1,14 +1,16 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sik_baitulhikmah/theme.dart';
 
 import 'router.dart';
 
-void main() {
+Future<void> main() async {
   usePathUrlStrategy();
-  runApp(const App());
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null).then((_) => runApp(App()));
 }
 
 class App extends StatelessWidget {

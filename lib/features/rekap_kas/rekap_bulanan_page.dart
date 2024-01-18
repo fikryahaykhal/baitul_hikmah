@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:sik_baitulhikmah/features/users/dummy_users.dart';
+import 'package:intersperse/intersperse.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:sik_baitulhikmah/features/pemasukan/dummy_pemasukan.dart';
+import 'package:sik_baitulhikmah/features/pemasukan/pemasukan.dart';
+import 'package:sik_baitulhikmah/features/rekap_kas/dummy_months.dart';
 import 'package:sik_baitulhikmah/router.dart';
 import 'package:sik_baitulhikmah/widgets/rounded_button.dart';
 import 'package:sik_baitulhikmah/widgets/text_widget.dart';
+import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../widgets/widgets.dart';
 
-class UsersPage extends StatelessWidget {
-  const UsersPage({super.key});
+class RekapBulananPage extends StatelessWidget {
+  const RekapBulananPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +23,12 @@ class UsersPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const PageHeader(
-            title: 'Data Siswa',
+            title: 'Rekapitulasi Kas Per Bulan',
             description: 'Berikut adalah data siswa yang terdaftar.',
           ),
           const Gap(16),
           RoundedButton(
-            text: 'Tambah Siswa Baru',
+            text: 'Tambah Rekapitulasi Kas Baru',
             color: Colors.blue,
             onTap: () {
               _showFormPopupCreate(context);
@@ -35,10 +40,10 @@ class UsersPage extends StatelessWidget {
             child: Card(
               clipBehavior: Clip.antiAlias,
               child: ListView.separated(
-                itemCount: dummyUsers.length,
+                itemCount: dummyMonths.length,
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
-                  final user = dummyUsers[index];
+                  final user = dummyMonths[index];
                   return Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: ListTile(
@@ -49,23 +54,15 @@ class UsersPage extends StatelessWidget {
                             style: theme.textTheme.headlineSmall!
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
-                          user.status == 1
-                              ? Row(children: [Gap(16), BelumSPP()])
-                              : user.status == 2
-                                  ? Row(children: [Gap(16), BelumDSP()])
-                                  : user.status == 3
-                                      ? Row(
-                                          children: [Gap(16), BelumSPPDanDSP()])
-                                      : SizedBox()
                         ],
                       ),
                       subtitle: Text(
-                        user.role,
+                        user.year,
                         style: theme.textTheme.labelLarge,
                       ),
                       trailing: const Icon(Icons.navigate_next_outlined),
                       onTap: () {
-                        UserPageRoute(userId: user.userId).go(context);
+                        UserPageRoute(userId: user.monthId).go(context);
                       },
                     ),
                   );
@@ -124,97 +121,6 @@ class UsersPage extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-class BelumDSP extends StatelessWidget {
-  const BelumDSP({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      height: 24,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.purple),
-          borderRadius: BorderRadius.circular(16)),
-      child: Center(
-        child: TextWidget(
-          text: 'Belum Bayar DSP',
-          textsize: 12,
-          textcolor: Colors.purpleAccent,
-        ),
-      ),
-    );
-  }
-}
-
-class BelumSPP extends StatelessWidget {
-  const BelumSPP({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      height: 24,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.red),
-          borderRadius: BorderRadius.circular(16)),
-      child: Center(
-        child: TextWidget(
-          text: 'Belum Bayar SPP',
-          textsize: 12,
-          textcolor: Colors.redAccent,
-        ),
-      ),
-    );
-  }
-}
-
-class BelumSPPDanDSP extends StatelessWidget {
-  const BelumSPPDanDSP({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          height: 24,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.purple),
-              borderRadius: BorderRadius.circular(16)),
-          child: Center(
-            child: TextWidget(
-              text: 'Belum Bayar DSP',
-              textsize: 12,
-              textcolor: Colors.purpleAccent,
-            ),
-          ),
-        ),
-        Gap(8),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          height: 24,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.red),
-              borderRadius: BorderRadius.circular(16)),
-          child: Center(
-            child: TextWidget(
-              text: 'Belum Bayar SPP',
-              textsize: 12,
-              textcolor: Colors.redAccent,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

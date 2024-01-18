@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intersperse/intersperse.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sik_baitulhikmah/features/dashboard/dummy_inventories.dart';
 import 'package:sik_baitulhikmah/features/dashboard/inventory.dart';
@@ -102,6 +103,10 @@ class _TableView extends StatelessWidget {
             }
           } else {
             final inventory = inventories[vicinity.yIndex - 1];
+            String dateString = inventory.updateDate;
+            DateTime date = DateTime.parse(dateString);
+            String formattedDate =
+                DateFormat('dd MMMM yyyy', 'ID').format(date);
             switch (vicinity.xIndex) {
               case 0:
                 label = inventory.inventoryId;
@@ -114,7 +119,7 @@ class _TableView extends StatelessWidget {
               case 4:
                 label = inventory.minimumStock.toString();
               case 5:
-                label = inventory.updateDate;
+                label = formattedDate;
             }
           }
           return ColoredBox(

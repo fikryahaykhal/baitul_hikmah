@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intersperse/intersperse.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sik_baitulhikmah/features/pemasukan/pemasukan.dart';
 import 'package:sik_baitulhikmah/features/pengeluaran/dummy_pengeluaran.dart';
@@ -63,7 +64,7 @@ class PengeluaranPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Create Data Pemasukan'),
+          title: Text('Create Data Pengeluaran'),
           content: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -71,23 +72,34 @@ class PengeluaranPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Form(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     TextFormField(
                       decoration: InputDecoration(
-                          labelText: 'ID Pemasukan (Auto Generate)'),
+                          labelText: 'ID Pengeluaran (Auto Generate)'),
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Jenis Pemasukan'),
+                      decoration:
+                          InputDecoration(labelText: 'Jenis Pengeluaran'),
                     ),
                     TextFormField(
                       decoration: InputDecoration(labelText: 'Nominal'),
                     ),
                     TextFormField(
+                      decoration: InputDecoration(labelText: 'Sumber'),
+                    ),
+                    TextFormField(
                       decoration: InputDecoration(labelText: 'Keterangan'),
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Jenis Transaksi'),
+                      decoration:
+                          InputDecoration(labelText: 'Tanggal Transaksi'),
                     ),
+                    Expanded(child: SizedBox()),
+                    Text(
+                      'Sisa saldo saat ini adalah : Rp. 5.000.000,-',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    )
                   ],
                 ),
               ),
@@ -168,19 +180,25 @@ class _TableView extends StatelessWidget {
             }
           } else {
             final credit = credits[vicinity.yIndex - 1];
+            String dateString = credit.tanggal;
+            DateTime date = DateTime.parse(dateString);
+            String formattedDate =
+                DateFormat('dd MMMM yyyy', 'ID').format(date);
             switch (vicinity.xIndex) {
               case 0:
                 label = credit.pengeluaranID;
               case 1:
                 label = credit.category;
               case 2:
-                label = credit.nominal;
+                label = NumberFormat.currency(
+                        locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
+                    .format(double.parse(credit.nominal));
               case 3:
                 label = credit.sumber;
               case 4:
                 label = credit.keterangan;
               case 5:
-                label = credit.tanggal;
+                label = formattedDate;
               case 6:
                 return ActionWidget();
             }
@@ -251,7 +269,7 @@ class ActionWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Create Data Pemasukan'),
+          title: Text('Edit Data Pengeluaran'),
           content: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -259,23 +277,34 @@ class ActionWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Form(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     TextFormField(
                       decoration: InputDecoration(
-                          labelText: 'ID Pemasukan (Auto Generate)'),
+                          labelText: 'ID Pengeluaran (Auto Generate)'),
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Jenis Pemasukan'),
+                      decoration:
+                          InputDecoration(labelText: 'Jenis Pengeluaran'),
                     ),
                     TextFormField(
                       decoration: InputDecoration(labelText: 'Nominal'),
                     ),
                     TextFormField(
+                      decoration: InputDecoration(labelText: 'Sumber'),
+                    ),
+                    TextFormField(
                       decoration: InputDecoration(labelText: 'Keterangan'),
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Jenis Transaksi'),
+                      decoration:
+                          InputDecoration(labelText: 'Tanggal Transaksi'),
                     ),
+                    Expanded(child: SizedBox()),
+                    Text(
+                      'Sisa saldo saat ini adalah : Rp. 5.000.000,-',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    )
                   ],
                 ),
               ),
@@ -300,12 +329,40 @@ class ActionWidget extends StatelessWidget {
     );
   }
 
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Confirmation'),
+          content: Text('Are you sure you want to delete this item?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                print('Item deleted');
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                print('Cancel deletion');
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showFormPopupDetailPemasukan(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Create Data Pemasukan'),
+          title: Text('View Data Pengeluaran'),
           content: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -313,18 +370,24 @@ class ActionWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Form(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     TextFormField(
-                      readOnly: true,
                       decoration: InputDecoration(
-                          labelText: 'ID Pemasukan (Auto Generate)'),
+                          labelText: 'ID Pengeluaran (Auto Generate)'),
                     ),
                     TextFormField(
                       readOnly: true,
-                      decoration: InputDecoration(labelText: 'Jenis Pemasukan'),
+                      decoration:
+                          InputDecoration(labelText: 'Jenis Pengeluaran'),
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(labelText: 'Nominal'),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(labelText: 'Sumber'),
                     ),
                     TextFormField(
                       readOnly: true,
@@ -332,8 +395,14 @@ class ActionWidget extends StatelessWidget {
                     ),
                     TextFormField(
                       readOnly: true,
-                      decoration: InputDecoration(labelText: 'Jenis Transaksi'),
+                      decoration:
+                          InputDecoration(labelText: 'Tanggal Transaksi'),
                     ),
+                    Expanded(child: SizedBox()),
+                    Text(
+                      'Sisa saldo saat ini adalah : Rp. 5.000.000,-',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    )
                   ],
                 ),
               ),
@@ -351,33 +420,4 @@ class ActionWidget extends StatelessWidget {
       },
     );
   }
-}
-
-void _showDeleteConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Delete Confirmation'),
-        content: Text('Are you sure you want to delete this item?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              // Add your delete logic here
-              print('Item deleted');
-            },
-            child: Text('Yes'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              print('Cancel deletion');
-            },
-            child: Text('No'),
-          ),
-        ],
-      );
-    },
-  );
 }

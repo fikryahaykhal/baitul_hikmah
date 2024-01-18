@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intersperse/intersperse.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sik_baitulhikmah/features/pemasukan/dummy_pemasukan.dart';
 import 'package:sik_baitulhikmah/features/pemasukan/pemasukan.dart';
@@ -151,7 +152,7 @@ class _TableView extends StatelessWidget {
               case 0:
                 label = 'ID Pemasukan';
               case 1:
-                label = 'Jenis';
+                label = 'Kategori';
               case 2:
                 label = 'Nominal';
               case 3:
@@ -163,17 +164,23 @@ class _TableView extends StatelessWidget {
             }
           } else {
             final debit = debits[vicinity.yIndex - 1];
+            String dateString = debit.tanggal;
+            DateTime date = DateTime.parse(dateString);
+            String formattedDate =
+                DateFormat('dd MMMM yyyy', 'ID').format(date);
             switch (vicinity.xIndex) {
               case 0:
                 label = debit.pemasukanID;
               case 1:
                 label = debit.category;
               case 2:
-                label = debit.nominal;
+                label = NumberFormat.currency(
+                        locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
+                    .format(double.parse(debit.nominal));
               case 3:
                 label = debit.keterangan;
               case 4:
-                label = debit.tanggal;
+                label = formattedDate;
               case 5:
                 return ActionWidget();
             }
